@@ -21,7 +21,7 @@ RTL_FM_PATH = os.path.join(BASE_DIR, "rs", "rtl_fm.exe")
 def resource_path(relative_path):
     """Get absolute path to resource, works for dev and py2exe"""
     try:
-        base_path = sys._MEIPASS  # PyInstaller / py2exe temp dir
+        base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
 
@@ -35,7 +35,7 @@ class RS1729App(tk.Tk):
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.iconbitmap(resource_path("rs92.ico"))
 
-        self.set_dark_theme()  # Set dark theme
+        self.set_dark_theme()
 
         self.config = configparser.ConfigParser()
         self.load_settings()
@@ -98,7 +98,7 @@ class RS1729App(tk.Tk):
         dark_bg = "#2e2e2e"
         highlight_bg = "#444444"
         text_bg = "#1e1e1e"
-        dark_fg = "#FFD700"  # Zlatni tekst
+        dark_fg = "#FFD700"
         text_fg = "white"
 
         self.configure(bg=dark_bg)
@@ -115,14 +115,14 @@ class RS1729App(tk.Tk):
                   background=[('active', '#555555')],
                   foreground=[('active', '#ffffff')])
 
-        # Ovako definiraj poseban stil za combobox
+
         style.configure('Gold.TCombobox',
                         fieldbackground=dark_bg,
                         background=dark_bg,
                         foreground=dark_fg,
                         font=font_large)
 
-        # Map za readonly stanje comboboxa da ostane tamna pozadina i zlatni tekst
+
         style.map('Gold.TCombobox',
                   fieldbackground=[('readonly', dark_bg), ('!focus', dark_bg)],
                   foreground=[('readonly', dark_fg), ('!focus', dark_fg)])
@@ -172,7 +172,7 @@ class RS1729App(tk.Tk):
                                           width=18, state="readonly", style='Gold.TCombobox')
         self.gain_combobox.grid(row=1, column=1, sticky="w", padx=5, pady=2)
 
-        # Postavi selekciju u combobox na vrijednost iz self.gain_var
+
         if self.gain_var.get() in gain_options:
             self.gain_combobox.current(gain_options.index(self.gain_var.get()))
         else:
@@ -188,7 +188,7 @@ class RS1729App(tk.Tk):
         ttk.Button(frame_buttons, text="START decoder", command=self.start_decoder).pack(side="left", padx=10)
         ttk.Button(frame_buttons, text="STOP decoder", command=self.stop_decoder).pack(side="left", padx=10)
 
-        # Promjena fonta (ttk.Label ne podržava direktno font, zato koristimo tk.Label)
+
         label_9a4am = tk.Label(frame_buttons, text="Radiosonde decoder v2.1 by 9A4AM@2025", font=("Helvetica", 20), fg="white", bg="#2e2e2e")
         label_9a4am.pack(side="left", padx=10)
 
@@ -201,27 +201,27 @@ class RS1729App(tk.Tk):
         self.output_text = tk.Text(frame_output, wrap="none", yscrollcommand=scrollbar.set,
                                    state="disabled",
                                    bg=self.text_bg, fg=self.text_fg,
-                                   insertbackground=self.text_fg)  # insertbackground za kursor
+                                   insertbackground=self.text_fg)
         self.output_text.pack(fill="both", expand=True)
         scrollbar.config(command=self.output_text.yview)
 
     def create_last_data_window(self):
-        self.update_idletasks()  # Ažuriraj dimenzije glavnog prozora
+        self.update_idletasks()
 
-        # Dohvati dimenzije i poziciju glavnog prozora
+
         main_x = self.winfo_x()
         main_y = self.winfo_y()
         main_width = self.winfo_width()
 
-        # Izračunaj novu poziciju (udesno od glavnog)
-        new_x = main_x + main_width + 10  # 10 piksela razmaka
+
+        new_x = main_x + main_width + 10
         new_y = main_y
 
         self.last_window = tk.Toplevel(self)
         self.last_window.title("Last received data")
         self.last_window.iconbitmap(resource_path("rs92.ico"))
 
-        # self.last_window.overrideredirect(True)  # <<<<<< UKLANJA naslovnu traku
+        # self.last_window.overrideredirect(True)
         self.last_window.protocol("WM_DELETE_WINDOW", lambda: None)
         self.last_window.attributes("-topmost", True)
         self.last_window.geometry(f"400x250+{new_x}+{new_y}")
@@ -256,13 +256,13 @@ class RS1729App(tk.Tk):
 
     def start_decoder(self):
         self.save_settings()
-        self.focus_set()  # fokus na glavni prozor
+        self.focus_set()
         if self.process_rtl or self.process_decoder:
             messagebox.showinfo("Info", "Decoder is already started!")
             return
         try:
-            freq = self.freq_var.get().strip() + "M"  # NE pretvaramo u float!
-            float(freq.replace("M", "").replace("k", ""))  # Provjera da je broj + sufiks valjan
+            freq = self.freq_var.get().strip() + "M"
+            float(freq.replace("M", "").replace("k", ""))
             gain = float(self.gain_var.get())
             ppm = int(self.ppm_var.get())
         except ValueError:
@@ -286,7 +286,7 @@ class RS1729App(tk.Tk):
             messagebox.showerror("Error", f"Decoder not found: {decoder_exe}")
             return
 
-        # rs_cmd = [decoder_exe, "-v", "--IQ", "0.0", "--lp", "-", "48000", "16y"]
+        # rs_cmd = [decoder_exe, "-vv", "--IQ", "0.0", "--lp", "-", "48000", "16y"]
         rs_cmd = [decoder_exe, "-v", "--IQ", "0.0", "--lp", "-", "48000", "16y"]
         try:
             self.process_rtl = subprocess.Popen(rtl_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -301,7 +301,7 @@ class RS1729App(tk.Tk):
             messagebox.showerror("Error", f"Procces not started:\n{e}")
             self.process_rtl = None
             self.process_decoder = None
-            # Ukloni fokus s gain_combobox (ili s bilo kojeg widgeta)
+
 
     def stop_decoder(self):
         if self.process_decoder:
@@ -337,20 +337,20 @@ class RS1729App(tk.Tk):
         while not self.output_queue.empty():
             text = self.output_queue.get().strip()
 
-            # Provjera greške povezane sa SDR-om
+
             if "[ERR] IF: 48000" in text:
                 from tkinter import messagebox
                 messagebox.showerror("SDR Error", "Error! SDR not exist or not installed ZADIG driver!")
                 self.log_message("[SDR ERROR] " + text + "\n")
 
-                # Ako želiš prekinuti rad dekodera:
+
                 if hasattr(self, 'decoder_process'):
                     try:
                         self.decoder_process.terminate()
                         self.decoder_process = None
                     except Exception as e:
                         print(f"[ERROR] Decoder interrupted: {e}")
-                return  # prekini daljnju obradu
+                return
 
             self.log_message(text + "\n")
             self.check_and_log_payload(text)
@@ -374,17 +374,17 @@ class RS1729App(tk.Tk):
 
         if self.current_payload_id:
             try:
-                # Kreiraj path do foldera log u direktoriju aplikacije
+
                 # log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "log")
                 if getattr(sys, 'frozen', False):
-                    # Ako je program 'zamrznut' u .exe
+
                     application_path = os.path.dirname(sys.executable)
                 else:
-                    # Ako se pokreće kao skripta
+
                     application_path = os.path.dirname(os.path.abspath(__file__))
 
                 log_dir = os.path.join(application_path, "log")
-                os.makedirs(log_dir, exist_ok=True)  # kreiraj folder ako ne postoji
+                os.makedirs(log_dir, exist_ok=True)
 
                 filename = f"{self.current_payload_id}.log"
                 filepath = os.path.join(log_dir, filename)
@@ -396,14 +396,14 @@ class RS1729App(tk.Tk):
 
     def update_last_data(self, text):
         try:
-            # Pokušaj dohvatiti Payload_ID
+
             match = re.search(r'\(([A-Z0-9]+)\)', text)
             if match and "Payload_ID" in self.last_data:
                 self.last_data["Payload_ID"].set(match.group(1))
             elif "Payload_ID" in self.last_data:
                 self.last_data["Payload_ID"].set("N/A")
 
-            # Definicija regex uzoraka
+
             fields = {
                 "Latitude": r'lat:\s*([-+]?\d*\.\d+)',
                 "Longitude": r'lon:\s*([-+]?\d*\.\d+)',
@@ -413,14 +413,14 @@ class RS1729App(tk.Tk):
                 "Vertical_speed": r'vV:\s*([-+]?\d*\.\d+)'
             }
 
-            # Prolaz kroz sva polja
+
             for key, pattern in fields.items():
                 match = re.search(pattern, text)
                 if match:
                     if key in self.last_data:
                         value = match.group(1)
                         if key == "Horizontal_speed":
-                            # Pretvori u km/h
+
                             try:
                                 kmh = float(value) * 3.6
                                 self.last_data[key].set(f"{kmh:.1f} km/h")
