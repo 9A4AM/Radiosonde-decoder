@@ -20,34 +20,20 @@ As such, this project is not a derivative work of those GPL programs and is not 
 
 
 ****************************************************************************************************************************************************************************************************************************
-Included External Tools (GPL Notice)
-This application uses several external open-source command-line tools, which are bundled in the executable distribution and invoked only via subprocess (i.e., as separate processes). These tools are licensed under the GNU General Public License (GPL), and are not integrated directly into the application's codebase.
+Included External Tools (GPL Notice) This application uses several external open-source command-line tools, which are bundled in the executable distribution and invoked only via subprocess (i.e., as separate processes). These tools are licensed under the GNU General Public License (GPL), and are not integrated directly into the application's codebase.
 
 The included tools are:
 
 Radiosonde decoders (rs1729)
-rs41mod.exe, m10mod.exe, dfm09mod.exe, mXXmod.exe
-
-License: GNU GPL v3
-
-Source: https://github.com/rs1729/RS
-
+Files: rs41mod.exe, m10mod.exe, dfm09mod.exe, mXXmod.exe
+License: GNU General Public License v3.0
+Source code: https://github.com/rs1729/RS
+Usage: These tools are used as external decoders and are invoked via subprocess.
+Location in application: AppDir\rs\decoders\
+Replacement: Users may replace these .exe files with compatible versions from the original repository, as required by the GPLv3 license.
 RTL-SDR Tool
 rtl_fm.exe
 
 License: GNU GPL v2
 
 Source: https://github.com/rtlsdrblog/rtl-sdr-blog
-
-Audio Processor
-sox.exe (SoX - Sound eXchange)
-
-License: GNU GPL v2
-
-Source: https://sourceforge.net/projects/sox/
-
-These tools are invoked as external processes and are not linked or imported into the main application code. Their inclusion is solely for convenience and proper operation of the system.
-Each tool remains under its original license, and full source code or links to the official repositories are provided above in accordance with their respective GPL licenses.
-
-Licensing Clarification
-The main application does not include or derive from GPL-licensed code. Therefore, the GPL requirements apply only to the tools listed above, not to the rest of this application.
