@@ -8,8 +8,6 @@ Radiosonde decoder with Python and RS1729 decoder. Not need SOX or Virtual cable
 External Tools Licensing Notice
 This project utilizes external command-line tools that are licensed under the GNU General Public License (GPL):
 
-SoX – Licensed under GPLv2
-
 rtl_fm (from the rtl-sdr package) – Licensed under GPLv2
 
 rs1729 (radiosonde decoders) – Licensed under GPLv3
@@ -24,14 +22,15 @@ Included External Tools (GPL Notice) This application uses several external open
 
 The included tools are:
 
-Radiosonde decoders (rs1729)
+### Radiosonde decoders (rs1729)
 Files: rs41mod.exe, m10mod.exe, dfm09mod.exe, mXXmod.exe
 License: GNU General Public License v3.0
 Source code: https://github.com/rs1729/RS
 Usage: These tools are used as external decoders and are invoked via subprocess.
 Location in application: AppDir\rs\decoders\
 Replacement: Users may replace these .exe files with compatible versions from the original repository, as required by the GPLv3 license.
-RTL-SDR Tool
+
+### RTL-SDR Tool
 rtl_fm.exe
 
 License: GNU GPL v2
